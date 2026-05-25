@@ -1,0 +1,33 @@
+// payment-service/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  orderId       String        @unique
+  userId        String
+  amount        Decimal       @db.Decimal(10, 2)
+  method        PaymentMethod @default(MANUAL_TRANSFER)
+  status        PaymentStatus @default(PENDING)
+  proofImageUrl String?       // URL bukti transfer
+  approvedBy    String?       // userId admin yang approve
+  approvedAt    DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+enum PaymentMethod {
+  MANUAL_TRANSFER
+}
+
+enum PaymentStatus {
+  PENDING    // menunggu upload bukti
+  SUBMITTED  // bukti sudah diupload, menunggu admin
+  APPROVED   // admin sudah approve
+  REJECTED   // admin reject, harus upload ulang
+}
