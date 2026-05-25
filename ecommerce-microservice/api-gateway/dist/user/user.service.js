@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
-const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
+const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const rxjs_1 = require("rxjs");
 let UserService = class UserService {
@@ -26,7 +26,8 @@ let UserService = class UserService {
         this.internalSecret = this.configService.get('INTERNAL_SECRET') || '';
     }
     async getMe(user) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`${this.userServiceUrl}/users/me`, {
+        console.log('user', user);
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${this.userServiceUrl}/users/me`, {
             headers: {
                 'x-user-id': user.sub,
                 'x-user-role': user.role,

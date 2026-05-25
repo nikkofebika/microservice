@@ -11,20 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtAuthGuard = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
 let JwtAuthGuard = class JwtAuthGuard {
+    configSerivice;
     jwtService;
-    constructor(jwtService) {
+    constructor(configSerivice, jwtService) {
+        this.configSerivice = configSerivice;
         this.jwtService = jwtService;
     }
     async canActivate(context) {
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
+        console.log('token', token);
         if (!token) {
             throw new common_1.UnauthorizedException('Token not found');
         }
         try {
-            const payload = await this.jwtService.verifyAsync(token);
+            const payload = await this.jwtService.verifyAsync(token, {
+                secret: this.configSerivice.get('JWT_SECRET'),
+            });
             request['user'] = payload;
         }
         catch {
@@ -40,6 +46,7 @@ let JwtAuthGuard = class JwtAuthGuard {
 exports.JwtAuthGuard = JwtAuthGuard;
 exports.JwtAuthGuard = JwtAuthGuard = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService])
+    __metadata("design:paramtypes", [config_1.ConfigService,
+        jwt_1.JwtService])
 ], JwtAuthGuard);
 //# sourceMappingURL=jwt-auth.guard.js.map

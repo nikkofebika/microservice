@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -17,7 +17,8 @@ export class UserService {
   }
 
   async getMe(user: any) {
-    const response = await lastValueFrom(
+    console.log('user', user);
+    const response = await firstValueFrom(
       this.httpService.get(`${this.userServiceUrl}/users/me`, {
         headers: {
           'x-user-id': user.sub,

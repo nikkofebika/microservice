@@ -33,19 +33,26 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+const adapter_pg_1 = require("@prisma/adapter-pg");
 const client_1 = require("@prisma/client");
 const bcrypt = __importStar(require("bcrypt"));
-const prisma = new client_1.PrismaClient();
+const pg_1 = require("pg");
+const pool = new pg_1.Pool({
+    connectionString: process.env.DATABASE_URL,
+});
+const adapter = new adapter_pg_1.PrismaPg(pool);
+const prisma = new client_1.PrismaClient({
+    adapter,
+});
 async function main() {
-    const adminPassword = await bcrypt.hash('admin123', 10);
-    const customerPassword = await bcrypt.hash('customer123', 10);
+    const password = await bcrypt.hash('password', 10);
     const admin = await prisma.user.upsert({
-        where: { email: 'admin@ecommerce.com' },
+        where: { email: 'admin@gmail.com' },
         update: {},
         create: {
-            email: 'admin@ecommerce.com',
+            email: 'admin@gmail.com',
             name: 'Admin Toko',
-            password: adminPassword,
+            password: password,
             role: client_1.Role.ADMIN,
         },
     });
@@ -55,7 +62,7 @@ async function main() {
         create: {
             email: 'customer@gmail.com',
             name: 'Budi Pembeli',
-            password: customerPassword,
+            password: password,
             role: client_1.Role.CUSTOMER,
         },
     });

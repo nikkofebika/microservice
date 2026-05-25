@@ -21,10 +21,14 @@ import { PaymentModule } from './payment/payment.module';
     }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-      }),
       inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const secret = configService.get('JWT_SECRET');
+        console.log('secret', secret);
+        return {
+          secret,
+        };
+      },
     }),
     AuthModule,
     UserModule,

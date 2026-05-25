@@ -14,16 +14,15 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  const adminPassword = await bcrypt.hash('admin123', 10);
-  const customerPassword = await bcrypt.hash('customer123', 10);
+  const password = await bcrypt.hash('password', 10);
 
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@ecommerce.com' },
+    where: { email: 'admin@gmail.com' },
     update: {},
     create: {
-      email: 'admin@ecommerce.com',
+      email: 'admin@gmail.com',
       name: 'Admin Toko',
-      password: adminPassword,
+      password: password,
       role: Role.ADMIN,
     },
   });
@@ -34,7 +33,7 @@ async function main() {
     create: {
       email: 'customer@gmail.com',
       name: 'Budi Pembeli',
-      password: customerPassword,
+      password: password,
       role: Role.CUSTOMER,
     },
   });

@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentService = void 0;
-const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
+const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
-const rxjs_1 = require("rxjs");
 const form_data_1 = __importDefault(require("form-data"));
+const rxjs_1 = require("rxjs");
 let PaymentService = class PaymentService {
     httpService;
     configService;
@@ -25,10 +25,11 @@ let PaymentService = class PaymentService {
     constructor(httpService, configService) {
         this.httpService = httpService;
         this.configService = configService;
-        this.paymentServiceUrl = this.configService.get('PAYMENT_SERVICE_URL') || '';
+        this.paymentServiceUrl =
+            this.configService.get('PAYMENT_SERVICE_URL') || '';
     }
     async initiate(orderId, user) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.paymentServiceUrl}/payments/orders/${orderId}`, {}, {
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.post(`${this.paymentServiceUrl}/payments/orders/${orderId}`, {}, {
             headers: {
                 'x-user-id': user.sub,
             },
@@ -41,7 +42,7 @@ let PaymentService = class PaymentService {
             filename: file.originalname,
             contentType: file.mimetype,
         });
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.paymentServiceUrl}/payments/${id}/proof`, formData, {
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.post(`${this.paymentServiceUrl}/payments/${id}/proof`, formData, {
             headers: {
                 ...formData.getHeaders(),
                 'x-user-id': user.sub,
@@ -50,15 +51,15 @@ let PaymentService = class PaymentService {
         return response.data;
     }
     async findOne(id) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`${this.paymentServiceUrl}/payments/${id}`));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${this.paymentServiceUrl}/payments/${id}`));
         return response.data;
     }
     async findAll() {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`${this.paymentServiceUrl}/payments`));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${this.paymentServiceUrl}/payments`));
         return response.data;
     }
     async approve(id, user) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.paymentServiceUrl}/payments/${id}/approve`, {}, {
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.post(`${this.paymentServiceUrl}/payments/${id}/approve`, {}, {
             headers: {
                 'x-user-id': user.sub,
             },
@@ -66,7 +67,7 @@ let PaymentService = class PaymentService {
         return response.data;
     }
     async reject(id) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.paymentServiceUrl}/payments/${id}/reject`, {}));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.post(`${this.paymentServiceUrl}/payments/${id}/reject`, {}));
         return response.data;
     }
 };

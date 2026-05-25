@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class OrderService {
@@ -15,7 +15,7 @@ export class OrderService {
   }
 
   async create(user: any, data: any) {
-    const response = await lastValueFrom(
+    const response = await firstValueFrom(
       this.httpService.post(`${this.orderServiceUrl}/orders`, data, {
         headers: {
           'x-user-id': user.sub,
@@ -27,7 +27,7 @@ export class OrderService {
   }
 
   async findAll(user: any) {
-    const response = await lastValueFrom(
+    const response = await firstValueFrom(
       this.httpService.get(`${this.orderServiceUrl}/orders`, {
         headers: {
           'x-user-id': user.sub,
@@ -39,7 +39,7 @@ export class OrderService {
   }
 
   async findOne(id: string, user: any) {
-    const response = await lastValueFrom(
+    const response = await firstValueFrom(
       this.httpService.get(`${this.orderServiceUrl}/orders/${id}`, {
         headers: {
           'x-user-id': user.sub,
@@ -51,7 +51,7 @@ export class OrderService {
   }
 
   async cancel(id: string, user: any) {
-    const response = await lastValueFrom(
+    const response = await firstValueFrom(
       this.httpService.patch(
         `${this.orderServiceUrl}/orders/${id}/cancel`,
         {},

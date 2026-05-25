@@ -14,7 +14,6 @@ const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const axios_1 = require("@nestjs/axios");
 const config_1 = require("@nestjs/config");
-const rxjs_1 = require("rxjs");
 const manual_transfer_provider_1 = require("./providers/manual-transfer.provider");
 const client_1 = require("@prisma/client");
 let PaymentService = class PaymentService {
@@ -33,7 +32,7 @@ let PaymentService = class PaymentService {
         this.internalSecret = this.configService.get('INTERNAL_SECRET') || '';
     }
     async initiate(orderId, userId) {
-        const orderResponse = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`${this.orderServiceUrl}/orders/internal/${orderId}`, { headers: { 'x-internal-secret': this.internalSecret } }));
+        const orderResponse = await firstValueFrom(this.httpService.get(`${this.orderServiceUrl}/orders/internal/${orderId}`, { headers: { 'x-internal-secret': this.internalSecret } }));
         const order = orderResponse.data;
         if (order.userId !== userId) {
             throw new common_1.BadRequestException('Order does not belong to user');
@@ -50,7 +49,7 @@ let PaymentService = class PaymentService {
             },
         });
         const result = await this.manualProvider.initiate(orderId, Number(order.totalAmount));
-        await (0, rxjs_1.lastValueFrom)(this.httpService.patch(`${this.orderServiceUrl}/orders/internal/${orderId}/status`, { status: 'WAITING_PAYMENT' }, { headers: { 'x-internal-secret': this.internalSecret } }));
+        await firstValueFrom(this.httpService.patch(`${this.orderServiceUrl}/orders/internal/${orderId}/status`, { status: 'WAITING_PAYMENT' }, { headers: { 'x-internal-secret': this.internalSecret } }));
         return { payment, ...result };
     }
     async uploadProof(id, userId, filePath) {
@@ -82,7 +81,7 @@ let PaymentService = class PaymentService {
                 approvedAt: new Date(),
             },
         });
-        await (0, rxjs_1.lastValueFrom)(this.httpService.patch(`${this.orderServiceUrl}/orders/internal/${payment.orderId}/status`, { status: 'PAID' }, { headers: { 'x-internal-secret': this.internalSecret } }));
+        await firstValueFrom(this.httpService.patch(`${this.orderServiceUrl}/orders/internal/${payment.orderId}/status`, { status: 'PAID' }, { headers: { 'x-internal-secret': this.internalSecret } }));
         return updatedPayment;
     }
     async reject(id) {

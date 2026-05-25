@@ -8,16 +8,16 @@ export declare class ProductController {
             stock: {
                 id: string;
                 updatedAt: Date;
-                productId: string;
                 quantity: number;
+                productId: string;
             } | null;
         } & {
             name: string;
             description: string | null;
             price: import("@prisma/client-runtime-utils").Decimal;
             imageUrl: string | null;
-            isActive: boolean;
             id: string;
+            isActive: boolean;
             createdAt: Date;
             updatedAt: Date;
         })[];
@@ -29,16 +29,16 @@ export declare class ProductController {
         stock: {
             id: string;
             updatedAt: Date;
-            productId: string;
             quantity: number;
+            productId: string;
         } | null;
     } & {
         name: string;
         description: string | null;
         price: import("@prisma/client-runtime-utils").Decimal;
         imageUrl: string | null;
-        isActive: boolean;
         id: string;
+        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -46,16 +46,16 @@ export declare class ProductController {
         stock: {
             id: string;
             updatedAt: Date;
-            productId: string;
             quantity: number;
+            productId: string;
         } | null;
     } & {
         name: string;
         description: string | null;
         price: import("@prisma/client-runtime-utils").Decimal;
         imageUrl: string | null;
-        isActive: boolean;
         id: string;
+        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -63,16 +63,16 @@ export declare class ProductController {
         stock: {
             id: string;
             updatedAt: Date;
-            productId: string;
             quantity: number;
+            productId: string;
         } | null;
     } & {
         name: string;
         description: string | null;
         price: import("@prisma/client-runtime-utils").Decimal;
         imageUrl: string | null;
-        isActive: boolean;
         id: string;
+        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -80,16 +80,16 @@ export declare class ProductController {
         stock: {
             id: string;
             updatedAt: Date;
-            productId: string;
             quantity: number;
+            productId: string;
         } | null;
     } & {
         name: string;
         description: string | null;
         price: import("@prisma/client-runtime-utils").Decimal;
         imageUrl: string | null;
-        isActive: boolean;
         id: string;
+        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;

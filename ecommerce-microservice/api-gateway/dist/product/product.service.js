@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
-const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
+const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const rxjs_1 = require("rxjs");
 let ProductService = class ProductService {
@@ -21,28 +21,29 @@ let ProductService = class ProductService {
     constructor(httpService, configService) {
         this.httpService = httpService;
         this.configService = configService;
-        this.productServiceUrl = this.configService.get('PRODUCT_SERVICE_URL') || '';
+        this.productServiceUrl =
+            this.configService.get('PRODUCT_SERVICE_URL') || '';
     }
     async findAll(query) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`${this.productServiceUrl}/products`, {
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${this.productServiceUrl}/products`, {
             params: query,
         }));
         return response.data;
     }
     async findOne(id) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`${this.productServiceUrl}/products/${id}`));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${this.productServiceUrl}/products/${id}`));
         return response.data;
     }
     async create(data) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.productServiceUrl}/products`, data));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.post(`${this.productServiceUrl}/products`, data));
         return response.data;
     }
     async update(id, data) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.put(`${this.productServiceUrl}/products/${id}`, data));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.put(`${this.productServiceUrl}/products/${id}`, data));
         return response.data;
     }
     async updateStock(id, data) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.put(`${this.productServiceUrl}/stock/${id}`, data));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.put(`${this.productServiceUrl}/stock/${id}`, data));
         return response.data;
     }
 };

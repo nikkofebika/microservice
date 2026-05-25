@@ -17,8 +17,11 @@ model Payment {
   proofImageUrl String?       // URL bukti transfer
   approvedBy    String?       // userId admin yang approve
   approvedAt    DateTime?
+
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+
+  @@map("payments")
 }
 
 enum PaymentMethod {

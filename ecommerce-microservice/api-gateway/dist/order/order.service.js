@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
-const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
+const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const rxjs_1 = require("rxjs");
 let OrderService = class OrderService {
@@ -24,7 +24,7 @@ let OrderService = class OrderService {
         this.orderServiceUrl = this.configService.get('ORDER_SERVICE_URL') || '';
     }
     async create(user, data) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.orderServiceUrl}/orders`, data, {
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.post(`${this.orderServiceUrl}/orders`, data, {
             headers: {
                 'x-user-id': user.sub,
                 'x-user-role': user.role,
@@ -33,7 +33,7 @@ let OrderService = class OrderService {
         return response.data;
     }
     async findAll(user) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`${this.orderServiceUrl}/orders`, {
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${this.orderServiceUrl}/orders`, {
             headers: {
                 'x-user-id': user.sub,
                 'x-user-role': user.role,
@@ -42,7 +42,7 @@ let OrderService = class OrderService {
         return response.data;
     }
     async findOne(id, user) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get(`${this.orderServiceUrl}/orders/${id}`, {
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${this.orderServiceUrl}/orders/${id}`, {
             headers: {
                 'x-user-id': user.sub,
                 'x-user-role': user.role,
@@ -51,7 +51,7 @@ let OrderService = class OrderService {
         return response.data;
     }
     async cancel(id, user) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.patch(`${this.orderServiceUrl}/orders/${id}/cancel`, {}, {
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.patch(`${this.orderServiceUrl}/orders/${id}/cancel`, {}, {
             headers: {
                 'x-user-id': user.sub,
             },

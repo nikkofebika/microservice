@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
-const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
+const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const rxjs_1 = require("rxjs");
 let AuthService = class AuthService {
@@ -24,11 +24,11 @@ let AuthService = class AuthService {
         this.userServiceUrl = this.configService.get('USER_SERVICE_URL') || '';
     }
     async register(data) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.userServiceUrl}/auth/register`, data));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.post(`${this.userServiceUrl}/auth/register`, data));
         return response.data;
     }
     async login(data) {
-        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.userServiceUrl}/auth/login`, data));
+        const response = await (0, rxjs_1.firstValueFrom)(this.httpService.post(`${this.userServiceUrl}/auth/login`, data));
         return response.data;
     }
 };

@@ -27,7 +27,7 @@ export class PaymentService {
 
   async initiate(orderId: string, userId: string) {
     // 1. Fetch order details from Order Service
-    const orderResponse = await lastValueFrom(
+    const orderResponse = await firstValueFrom(
       this.httpService.get(
         `${this.orderServiceUrl}/orders/internal/${orderId}`,
         { headers: { 'x-internal-secret': this.internalSecret } },
@@ -54,10 +54,13 @@ export class PaymentService {
     });
 
     // 3. Initiate via provider
-    const result = await this.manualProvider.initiate(orderId, Number(order.totalAmount));
+    const result = await this.manualProvider.initiate(
+      orderId,
+      Number(order.totalAmount),
+    );
 
     // 4. Update Order status to WAITING_PAYMENT
-    await lastValueFrom(
+    await firstValueFrom(
       this.httpService.patch(
         `${this.orderServiceUrl}/orders/internal/${orderId}/status`,
         { status: 'WAITING_PAYMENT' },
@@ -105,7 +108,7 @@ export class PaymentService {
     });
 
     // Notify Order Service
-    await lastValueFrom(
+    await firstValueFrom(
       this.httpService.patch(
         `${this.orderServiceUrl}/orders/internal/${payment.orderId}/status`,
         { status: 'PAID' },

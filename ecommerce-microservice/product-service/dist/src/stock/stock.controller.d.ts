@@ -6,8 +6,8 @@ export declare class StockController {
     updateStock(productId: string, dto: UpdateStockDto): Promise<{
         id: string;
         updatedAt: Date;
-        productId: string;
         quantity: number;
+        productId: string;
     }>;
     reduceStock(body: {
         items: {

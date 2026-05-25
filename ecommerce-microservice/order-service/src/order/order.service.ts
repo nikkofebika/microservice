@@ -20,13 +20,14 @@ export class OrderService {
     private httpService: HttpService,
     private configService: ConfigService,
   ) {
-    this.productServiceUrl = this.configService.get('PRODUCT_SERVICE_URL') || '';
+    this.productServiceUrl =
+      this.configService.get('PRODUCT_SERVICE_URL') || '';
     this.internalSecret = this.configService.get('INTERNAL_SECRET') || '';
   }
 
   async create(userId: string, dto: CreateOrderDto) {
     // 1. Validate stock via Product Service
-    const validateResponse = await lastValueFrom(
+    const validateResponse = await firstValueFrom(
       this.httpService.post(
         `${this.productServiceUrl}/products/internal/validate-stock`,
         { items: dto.items },
@@ -41,13 +42,17 @@ export class OrderService {
         .filter((i: any) => !i.valid)
         .map((i: any) => i.productId)
         .join(', ');
-      throw new BadRequestException(`Stock insufficient for products: ${invalidItems}`);
+      throw new BadRequestException(
+        `Stock insufficient for products: ${invalidItems}`,
+      );
     }
 
     // 2. Calculate total and prepare snapshots
     let totalAmount = 0;
     const orderItemsData = dto.items.map((item) => {
-      const productInfo = items.find((i: any) => i.productId === item.productId);
+      const productInfo = items.find(
+        (i: any) => i.productId === item.productId,
+      );
       const price = Number(productInfo.price);
       totalAmount += price * item.quantity;
 
@@ -73,7 +78,7 @@ export class OrderService {
       });
 
       // 4. Reduce stock via Product Service
-      await lastValueFrom(
+      await firstValueFrom(
         this.httpService.post(
           `${this.productServiceUrl}/stock/internal/reduce`,
           { items: dto.items },
@@ -108,7 +113,9 @@ export class OrderService {
     }
 
     if (role !== 'ADMIN' && order.userId !== userId) {
-      throw new BadRequestException('You do not have permission to view this order');
+      throw new BadRequestException(
+        'You do not have permission to view this order',
+      );
     }
 
     return order;

@@ -19,7 +19,7 @@ services:
     container_name: ecommerce-api-gateway
     ports:
       - "3000:3000"
-    env_file: ./api-gateway/.env
+    env_file: ./api-gateway/.env.docker
     depends_on:
       - user-service
       - product-service
@@ -33,7 +33,7 @@ services:
     container_name: ecommerce-user-service
     ports:
       - "3001:3001"
-    env_file: ./user-service/.env
+    env_file: ./user-service/.env.docker
     depends_on:
       - postgres
     networks:
@@ -44,7 +44,7 @@ services:
     container_name: ecommerce-product-service
     ports:
       - "3002:3002"
-    env_file: ./product-service/.env
+    env_file: ./product-service/.env.docker
     depends_on:
       - postgres
     networks:
@@ -55,7 +55,7 @@ services:
     container_name: ecommerce-order-service
     ports:
       - "3003:3003"
-    env_file: ./order-service/.env
+    env_file: ./order-service/.env.docker
     depends_on:
       - postgres
       - product-service
@@ -67,7 +67,7 @@ services:
     container_name: ecommerce-payment-service
     ports:
       - "3004:3004"
-    env_file: ./payment-service/.env
+    env_file: ./payment-service/.env.docker
     depends_on:
       - postgres
       - order-service

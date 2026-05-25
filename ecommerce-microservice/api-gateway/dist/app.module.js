@@ -33,10 +33,14 @@ exports.AppModule = AppModule = __decorate([
             }),
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
-                useFactory: async (configService) => ({
-                    secret: configService.get('JWT_SECRET'),
-                }),
                 inject: [config_1.ConfigService],
+                useFactory: async (configService) => {
+                    const secret = configService.get('JWT_SECRET');
+                    console.log('secret', secret);
+                    return {
+                        secret,
+                    };
+                },
             }),
             auth_module_1.AuthModule,
             user_module_1.UserModule,

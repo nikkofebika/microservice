@@ -9,16 +9,16 @@ export declare class ProductService {
             stock: {
                 id: string;
                 updatedAt: Date;
-                productId: string;
                 quantity: number;
+                productId: string;
             } | null;
         } & {
             name: string;
             description: string | null;
             price: Prisma.Decimal;
             imageUrl: string | null;
-            isActive: boolean;
             id: string;
+            isActive: boolean;
             createdAt: Date;
             updatedAt: Date;
         })[];
@@ -30,16 +30,16 @@ export declare class ProductService {
         stock: {
             id: string;
             updatedAt: Date;
-            productId: string;
             quantity: number;
+            productId: string;
         } | null;
     } & {
         name: string;
         description: string | null;
         price: Prisma.Decimal;
         imageUrl: string | null;
-        isActive: boolean;
         id: string;
+        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -47,16 +47,16 @@ export declare class ProductService {
         stock: {
             id: string;
             updatedAt: Date;
-            productId: string;
             quantity: number;
+            productId: string;
         } | null;
     } & {
         name: string;
         description: string | null;
         price: Prisma.Decimal;
         imageUrl: string | null;
-        isActive: boolean;
         id: string;
+        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -64,16 +64,16 @@ export declare class ProductService {
         stock: {
             id: string;
             updatedAt: Date;
-            productId: string;
             quantity: number;
+            productId: string;
         } | null;
     } & {
         name: string;
         description: string | null;
         price: Prisma.Decimal;
         imageUrl: string | null;
-        isActive: boolean;
         id: string;
+        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;

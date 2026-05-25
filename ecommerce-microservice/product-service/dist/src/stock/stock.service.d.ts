@@ -5,8 +5,8 @@ export declare class StockService {
     updateStock(productId: string, quantity: number): Promise<{
         id: string;
         updatedAt: Date;
-        productId: string;
         quantity: number;
+        productId: string;
     }>;
     reduceStock(items: {
         productId: string;

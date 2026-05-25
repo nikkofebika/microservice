@@ -6,11 +6,11 @@ export declare class OrderController {
     constructor(orderService: OrderService);
     create(userId: string, dto: CreateOrderDto): Promise<{
         items: {
-            productId: string;
-            quantity: number;
             id: string;
+            productId: string;
             productName: string;
             price: import("@prisma/client-runtime-utils").Decimal;
+            quantity: number;
             orderId: string;
         }[];
     } & {
@@ -23,11 +23,11 @@ export declare class OrderController {
     }>;
     findAll(userId: string, role: string): Promise<({
         items: {
-            productId: string;
-            quantity: number;
             id: string;
+            productId: string;
             productName: string;
             price: import("@prisma/client-runtime-utils").Decimal;
+            quantity: number;
             orderId: string;
         }[];
     } & {
@@ -40,11 +40,11 @@ export declare class OrderController {
     })[]>;
     findOne(id: string, userId: string, role: string): Promise<{
         items: {
-            productId: string;
-            quantity: number;
             id: string;
+            productId: string;
             productName: string;
             price: import("@prisma/client-runtime-utils").Decimal;
+            quantity: number;
             orderId: string;
         }[];
     } & {

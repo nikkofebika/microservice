@@ -14,7 +14,6 @@ const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const axios_1 = require("@nestjs/axios");
 const config_1 = require("@nestjs/config");
-const rxjs_1 = require("rxjs");
 const client_1 = require("@prisma/client");
 let OrderService = class OrderService {
     prisma;
@@ -26,11 +25,12 @@ let OrderService = class OrderService {
         this.prisma = prisma;
         this.httpService = httpService;
         this.configService = configService;
-        this.productServiceUrl = this.configService.get('PRODUCT_SERVICE_URL') || '';
+        this.productServiceUrl =
+            this.configService.get('PRODUCT_SERVICE_URL') || '';
         this.internalSecret = this.configService.get('INTERNAL_SECRET') || '';
     }
     async create(userId, dto) {
-        const validateResponse = await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.productServiceUrl}/products/internal/validate-stock`, { items: dto.items }, { headers: { 'x-internal-secret': this.internalSecret } }));
+        const validateResponse = await firstValueFrom(this.httpService.post(`${this.productServiceUrl}/products/internal/validate-stock`, { items: dto.items }, { headers: { 'x-internal-secret': this.internalSecret } }));
         const { valid, items } = validateResponse.data;
         if (!valid) {
             const invalidItems = items
@@ -62,7 +62,7 @@ let OrderService = class OrderService {
                 },
                 include: { items: true },
             });
-            await (0, rxjs_1.lastValueFrom)(this.httpService.post(`${this.productServiceUrl}/stock/internal/reduce`, { items: dto.items }, { headers: { 'x-internal-secret': this.internalSecret } }));
+            await firstValueFrom(this.httpService.post(`${this.productServiceUrl}/stock/internal/reduce`, { items: dto.items }, { headers: { 'x-internal-secret': this.internalSecret } }));
             return newOrder;
         });
         return order;
